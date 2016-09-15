@@ -1,0 +1,5 @@
+[docker:children]
+halti-slaves
+
+[halti-slaves]
+halti.slave.local

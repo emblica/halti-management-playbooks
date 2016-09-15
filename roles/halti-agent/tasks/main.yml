@@ -1,0 +1,22 @@
+---
+- command: "locale-gen fi_FI.UTF-8"
+- name: Remove old halti agent from slaves
+  docker:
+    name: halti-agent
+    state: absent
+    image: theikkila/halti-agent:latest
+- name: Run Halti Agent on slaves
+  docker:
+    name: halti-agent
+    image: theikkila/halti-agent:latest
+    pull: always
+    state: restarted
+    restart_policy: always
+    privileged: true
+    volumes:
+    - "/var/run/docker.sock:/var/run/docker.sock"
+    env:
+      DOCKER_HOST: "unix:///var/run/docker.sock"
+      HALTI_SERVER: "{{ halti_server }}"
+      ALLOW_INSEC_REGISTRY: "TRUE"
+      PORT_BIND_IP: "{{ ansible_eth0.ipv4.address }}"

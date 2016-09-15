@@ -1,0 +1,5 @@
+- hosts: halti-slaves
+  vars:
+    halti_server: "http://10.1.8.132:4040"
+  roles:
+    - halti-agent

@@ -1,0 +1,51 @@
+---
+- name: ensure wget is at the latest version
+  apt: pkg=wget update_cache=yes
+
+- name: ensure we have easy_install
+  apt: pkg=python-setuptools
+
+- name: ensure we don't have pip from ubuntu repository
+  apt: pkg=python-pip state=absent purge=yes force=yes
+
+- easy_install: name=pip
+- name: ensure docker-py is installed
+  pip: name=docker-py
+
+- name: Ensure installed package Apparmos
+  apt: pkg=apparmor
+
+- name: Ensure installed package Apt-transport https
+  apt: pkg=apt-transport-https
+
+- name: Ensure installed package certificates
+  apt: pkg=ca-certificates
+
+- name: Ensure installed package curl
+  apt: pkg=curl
+
+- name: Ensure Docker repository keys are added
+  apt_key:
+    keyserver: "hkp://p80.pool.sks-keyservers.net:80"
+    state: present
+    id: "58118E89F3A912897C070ADBF76221572C52609D"
+
+- name: Ensure old docker repository is removed
+  apt_repository:
+    repo: "deb https://get.docker.com/ubuntu docker main"
+    state: absent
+
+- name: Ensure current docker repository is added
+  apt_repository:
+    repo: "deb https://apt.dockerproject.org/repo ubuntu-trusty main"
+    state: present
+    update_cache: yes
+
+- name: Ensure old docker is removed
+  apt: pkg=lxc-docker state=absent
+
+- name: Ensure latest docker is installed
+  apt: pkg=docker-engine
+
+- name: ensure docker is running (and enable it at boot)
+  service: name=docker state=started enabled=yes

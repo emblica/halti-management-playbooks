@@ -1,0 +1,6 @@
+---
+- command: docker info
+  register: result
+  ignore_errors: True
+- include: docker.yml
+  when: result|failed
