@@ -1,0 +1,20 @@
+---
+
+
+- name: add backports repository
+  apt_repository: repo='deb http://httpredir.debian.org/debian jessie-backports main' state=present update_cache=yes
+
+- name: Installs haproxy as well as socat for socket api
+  apt: pkg={{ item }} state=latest
+  with_items:
+    - haproxy
+    - socat
+
+- name: Enable haproxy
+  service: name=haproxy enabled=yes
+
+- name: Push mainentance page
+  copy: src=files/maintenance.html dest=/etc/haproxy/maintenance.http owner=haproxy group=haproxy
+
+- name: Restart haproxy
+  service: name=haproxy state=restarted

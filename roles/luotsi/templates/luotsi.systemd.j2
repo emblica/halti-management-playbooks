@@ -1,0 +1,38 @@
+# NOTE: This file is managed by Ansible.
+
+[Unit]
+Description=Halti Luotsi LB
+Documentation=https://github.com/emblica/luotsi
+Requires=network.target remote-fs.target
+After=network.target remote-fs.target
+
+[Service]
+User=root
+Group=root
+{% if ssl %}
+Environment=SSL_ENABLED=true
+{% else %}
+Environment=SSL_ENABLED=false
+{% endif %}
+{% if cert_path is defined %}
+Environment=CERT_PATH={{cert_path}}
+{% endif %}
+{% if maintenance_page is defined%}
+Environment=MAINTENANCE_PAGE={{maintenance_page}}
+{% endif %}
+{% if stats_user is defined%}
+Environment=STATS_USER={{stats_user}}
+{% endif %}
+{% if stats_pass is defined %}
+Environment=STATS_PASS={{stats_pass}}
+{% endif %}
+Environment=HALTI_URL={{halti_server}}
+
+WorkingDirectory=/opt/luotsi/
+ExecStart=/usr/bin/node luotsi.js
+
+# Restart if it goes down for some reason
+Restart=always
+
+[Install]
+WantedBy=multi-user.target

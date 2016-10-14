@@ -4,11 +4,11 @@
   docker:
     name: halti-agent
     state: absent
-    image: theikkila/halti-agent:latest
+    image: emblica/halti-agent:latest
 - name: Run Halti Agent on slaves
   docker:
     name: halti-agent
-    image: theikkila/halti-agent:latest
+    image: emblica/halti-agent:latest
     pull: always
     state: restarted
     restart_policy: always
@@ -19,4 +19,4 @@
       DOCKER_HOST: "unix:///var/run/docker.sock"
       HALTI_SERVER: "{{ halti_server }}"
       ALLOW_INSEC_REGISTRY: "TRUE"
-      PORT_BIND_IP: "{{ ansible_eth0.ipv4.address }}"
+      PORT_BIND_IP: "{{ private_ip }}"

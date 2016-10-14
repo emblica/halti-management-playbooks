@@ -1,0 +1,23 @@
+
+---
+
+- name: Remove halti-server
+  docker:
+    name: halti-master
+    state: absent
+    image: emblica/halti-master:latest
+
+- name: Run halti-server
+  docker:
+    name: halti-master
+    image: emblica/halti-server
+    state: restarted
+    restart_policy: always
+    ports:
+      - "4040:4040"
+    links:
+    - mongodb
+    env:
+      PRODUCTION: "yes"
+      MONGO_URI: "mongodb://mongodb/halti"
+      PORT: 4040

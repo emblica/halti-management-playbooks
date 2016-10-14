@@ -1,0 +1,20 @@
+---
+
+- name: data container
+  docker:
+    name: mongodata
+    image: busybox
+    state: present
+    volumes:
+    - /data/db
+
+
+- name: Run MongoDB
+  docker:
+    name: mongodb
+    image: mongo
+    pull: always
+    state: reloaded
+    restart_policy: always
+    volumes_from:
+      - mongodata

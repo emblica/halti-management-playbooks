@@ -1,0 +1,21 @@
+---
+
+- name: Checkout luotsi
+  git: repo=https://github.com/emblica/luotsi.git dest=/opt/luotsi
+
+- name: Install dependencies
+  shell: "cd /opt/luotsi && npm install"
+
+- name: luotsi config
+  template: src={{ item.src }}
+            dest={{ item.dest }}
+            mode=0444 owner=root group=root
+  with_items:
+    - { src: templates/luotsi.systemd.j2, dest: /etc/systemd/system/luotsi.service }
+  tags:
+    - setup
+
+- name: luotsi service
+  service: name=luotsi state=restarted enabled=yes
+  tags:
+    - restart
