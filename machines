@@ -1,5 +1,11 @@
 [docker:children]
-halti-slaves
+halti-nodes
+halti-masters
 
-[halti-slaves]
-halti.slave.local
+[halti-nodes]
+node1.example.com capabilities=public private_ip=10.1.5.189
+node2.example.com capabilities=public private_ip=10.1.5.190
+node3.example.com capabilities=public private_ip=10.1.5.191
+
+[halti-masters]
+master1.example.com private_ip=10.1.7.241
