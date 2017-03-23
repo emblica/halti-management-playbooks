@@ -14,10 +14,10 @@
     state: restarted
     restart_policy: always
     ports:
-      - "4040:4040"
+      - "{{ private_ip }}:{{ halti_master_port }}:{{ halti_master_port }}"
     links:
     - mongodb
     env:
       PRODUCTION: "yes"
       MONGO_URI: "mongodb://mongodb/halti"
-      PORT: 4040
+      PORT: "{{ halti_master_port }}"

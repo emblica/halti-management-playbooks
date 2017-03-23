@@ -1,20 +1,13 @@
-- hosts: halti-nodes
+- hosts: haltinode
+  user: root
   become: yes
   become_method: sudo
-  vars:
-    halti_server: "http://10.1.7.241:4040"
+  vars_files:
+    - vars/main.yml
   roles:
+    - docker
     - halti-agent
     - nodejs
     - haproxy
     - role: luotsi
       ssl: false
-
-  # tasks:
-  #   - name: Push certificate
-  #     copy:
-  #       content: "{{ ssl_certificate }}"
-  #       dest: /etc/haproxy/cert.pem
-  #       owner: root
-  #       group: root
-  #     register: ssl_certificate

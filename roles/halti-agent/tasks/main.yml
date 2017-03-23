@@ -1,10 +1,13 @@
 ---
+
 - command: "locale-gen fi_FI.UTF-8"
+
 - name: Remove old halti agent from slaves
   docker:
     name: halti-agent
     state: absent
     image: emblica/halti-agent:latest
+
 - name: Run Halti Agent on slaves
   docker:
     name: halti-agent
@@ -17,6 +20,6 @@
     - "/var/run/docker.sock:/var/run/docker.sock"
     env:
       DOCKER_HOST: "unix:///var/run/docker.sock"
-      HALTI_SERVER: "{{ halti_server }}"
+      HALTI_SERVER: "{{ halti_master_url }}"
       ALLOW_INSEC_REGISTRY: "TRUE"
       PORT_BIND_IP: "{{ private_ip }}"

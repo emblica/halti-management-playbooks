@@ -1,6 +1,10 @@
 ---
-- command: docker info
+- name: test if docker is installed
+  command: docker info
   register: result
   ignore_errors: True
 - include: docker.yml
   when: result|failed
+
+- name: restart docker
+  service: name=docker state=restarted

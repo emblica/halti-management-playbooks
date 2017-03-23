@@ -1,0 +1,11 @@
+[docker:children]
+halti-nodes
+halti-masters
+
+[halti-nodes]
+node1.example.com
+node2.example.com
+node3.example.com
+
+[halti-masters]
+master1.example.com
