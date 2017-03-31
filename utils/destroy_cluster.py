@@ -23,12 +23,12 @@ def destroy_cluster():
 	pool.map(destroy, servers)
 
 
-servers = manager.get_servers(tags_has_one=['haltimaster', 'haltinode'])
+servers = manager.get_servers(tags_has_one=['halti-masters', 'halti-nodes'])
 servers_str = ', '.join([s.hostname for s in servers])
 
 
 # for automation purposes, just do it
-if len(sys.argv) > 1 and sys.argv[1] == '--no-input-danger':	
+if len(sys.argv) > 1 and sys.argv[1] == '--no-input-danger':
 	destroy_cluster()
 	sys.exit(0)
 
@@ -42,4 +42,3 @@ else:
 	print('confirmation successful...')
 	destroy_cluster()
 	sys.exit(0)
-

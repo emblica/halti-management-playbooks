@@ -3,9 +3,9 @@
   become: yes
   become_method: sudo
 
-# - include: halti-servers.yml
-#   tags:
-#   - provision
+- include: halti-servers.yml
+  tags:
+  - provision
 
 - include: halti-masters.yml
   tags:
