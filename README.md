@@ -2,6 +2,10 @@
 
 Provision and install a small Halti cluster on UpCloud.
 
+It also installs monitoring and metrics collection setup.
+After installation halti-master (and so the API) can be found at <private_ip_of_master>:4040
+The Grafana by default is in <private_ip_of_master>:3000 and the InfluxDB <private_ip_of_master>:8083/8086
+
 ### Dependencies
 
 * python2 (because ansible)
@@ -32,6 +36,13 @@ ansible-playbook -i ./upcloud-ansible/inventory/upcloud.py -M ./upcloud-ansible/
 ```
 ansible-playbook -i hosts site.yml --tags install
 ```
+
+
+### Support for capabilities
+
+You can add halti supported capability-setting by defining `capabilities` variable for each host.
+
+ie. `capabilities=public,ssd`
 
 ### Notes
 
