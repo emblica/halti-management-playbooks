@@ -1,0 +1,24 @@
+---
+
+- name: data container
+  docker:
+    name: grafanadata
+    image: busybox
+    state: present
+    volumes:
+    - /var/lib/grafana
+
+
+- name: Run Grafana
+  docker:
+    name: grafana
+    image: grafana/grafana
+    pull: always
+    state: reloaded
+    restart_policy: always
+    links:
+      - influxdb
+    volumes_from:
+      - grafanadata
+    ports:
+      - "{{ private_ip }}:{{ grafana_port }}:{{ grafana_port }}"

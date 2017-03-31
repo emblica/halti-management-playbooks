@@ -1,10 +1,12 @@
-- hosts: haltimaster
-  user: root
+- hosts: halti-masters
   become: yes
   become_method: sudo
   vars_files:
     - vars/main.yml
   roles:
-    - docker    
+    - docker
     - mongodb
     - halti-master
+    - influxdb
+    - grafana
+    - telegraf

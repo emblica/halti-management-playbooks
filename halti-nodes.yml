@@ -1,5 +1,4 @@
-- hosts: haltinode
-  user: root
+- hosts: halti-nodes
   become: yes
   become_method: sudo
   vars_files:
@@ -11,3 +10,4 @@
     - haproxy
     - role: luotsi
       ssl: false
+    - telegraf

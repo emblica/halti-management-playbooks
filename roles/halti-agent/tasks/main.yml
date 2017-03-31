@@ -22,4 +22,5 @@
       DOCKER_HOST: "unix:///var/run/docker.sock"
       HALTI_SERVER: "{{ halti_master_url }}"
       ALLOW_INSEC_REGISTRY: "TRUE"
+      CAPABILITIES: "{{ capabilities }}"
       PORT_BIND_IP: "{{ private_ip }}"

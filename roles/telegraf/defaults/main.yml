@@ -1,0 +1,7 @@
+
+
+telegraf_deb: "https://dl.influxdata.com/telegraf/releases/telegraf_1.2.1_amd64.deb"
+metrics_interval: "10s"
+telegraf_enable_docker: true
+telegraf_enable_luotsi: true
+telegraf_enable_system: true

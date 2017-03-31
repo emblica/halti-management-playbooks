@@ -11,6 +11,7 @@
   docker:
     name: halti-master
     image: emblica/halti-server
+    pull: always
     state: restarted
     restart_policy: always
     ports:
