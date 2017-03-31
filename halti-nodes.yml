@@ -11,3 +11,4 @@
     - haproxy
     - role: luotsi
       ssl: false
+    - telegraf
