@@ -1,0 +1,30 @@
+---
+
+- name: download telegraf .deb
+  get_url:
+    url: "{{telegraf_deb}}"
+    dest: /tmp/telegraf.deb
+
+- name: "Install telegraf"
+  command: "dpkg -i /tmp/telegraf.deb"
+
+- name: "Allow telegraf to access docker socket"
+  command: "usermod -aG docker telegraf"
+
+- name: "Allow telegraf to access haproxy socket"
+  command: "usermod -aG root telegraf"
+
+
+- name: Configure telegraf
+  template: src={{ item.src }}
+            dest={{ item.dest }}
+            mode=0444 owner=root group=root
+  with_items:
+    - { src: templates/telegraf.conf.j2, dest: /etc/telegraf/telegraf.conf }
+  tags:
+    - setup
+
+- name: restart telegraf service
+  service: name=telegraf state=restarted enabled=yes
+  tags:
+    - restart

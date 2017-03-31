@@ -1,0 +1,23 @@
+---
+
+- name: data container
+  docker:
+    name: influxdata
+    image: busybox
+    state: present
+    volumes:
+    - /var/lib/influxdb
+
+
+- name: Run InfluxDB
+  docker:
+    name: influxdb
+    image: influxdb
+    pull: always
+    state: reloaded
+    restart_policy: always
+    volumes_from:
+      - influxdata
+    ports:
+      - "{{ private_ip }}:{{ influxdb_port }}:{{ influxdb_port }}"
+      - "{{ private_ip }}:{{ influxdb_http_port }}:{{ influxdb_http_port }}"
