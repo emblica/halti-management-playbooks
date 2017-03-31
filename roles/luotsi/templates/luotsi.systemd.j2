@@ -26,7 +26,7 @@ Environment=STATS_USER={{stats_user}}
 {% if stats_pass is defined %}
 Environment=STATS_PASS={{stats_pass}}
 {% endif %}
-Environment=HALTI_URL={{halti_server}}
+Environment=HALTI_URL={{halti_master_url}}
 
 WorkingDirectory=/opt/luotsi/
 ExecStart=/usr/bin/node luotsi.js

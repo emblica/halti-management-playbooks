@@ -1,0 +1,45 @@
+---
+
+- name: Provision Halti cluster
+  hosts: localhost
+  connection: local
+  gather_facts: no
+  vars_files:
+    - vars/main.yml
+
+  pre_tasks:
+    - name: ensure UPCLOUD_API_USER has tagging permissions
+      shell: utils/test_tagging.py
+      register: test_tagging_output
+      failed_when: test_tagging_output.rc != 0
+  
+  roles:
+    - role: upcloud_server
+      cpu: 1
+      mem: 1024
+      hostname: master.halti0.emblica.fi
+      upcloud_storages:
+        - { size: 30, os: Debian 8.0 }
+      upcloud_zone: fi-hel1
+      upcloud_tags: ['haltimaster']
+    
+    - role: upcloud_server
+      cpu: 2
+      mem: 2048
+      hostname: node1.halti0.emblica.fi
+      upcloud_storages:
+        - { size: 50, os: Debian 8.0 }
+      upcloud_zone: fi-hel1
+      upcloud_tags: ['haltinode']
+    
+    - role: upcloud_server
+      cpu: 2
+      mem: 2048
+      hostname: node2.halti0.emblica.fi
+      upcloud_storages:
+        - { size: 50, os: Debian 8.0 }
+      upcloud_zone: fi-hel1
+      upcloud_tags: ['haltinode']
+  
+  tasks:
+    - meta: refresh_inventory

@@ -1,0 +1,11 @@
+.DS_Store
+
+
+# ansible
+*.retry
+
+# python
+*.pyc
+
+# for snippets etc.
+.copypaste

@@ -1,0 +1,3 @@
+[submodule "upcloud-ansible"]
+	path = upcloud-ansible
+	url = git@github.com:UpCloudLtd/upcloud-ansible.git

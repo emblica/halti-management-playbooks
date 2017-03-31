@@ -1,0 +1,38 @@
+---
+
+- name: Provision UpCloud server
+  upcloud:
+    state: present
+    hostname: "{{ hostname }}"
+    title: "{{ hostname }}"
+    zone: "{{ upcloud_zone }}"
+    core_number: "{{ cpu }}"
+    memory_amount: "{{ mem }}"
+    storage_devices: "{{ upcloud_storages }}"
+    ssh_keys:
+      - "{{ user_ssh_key }}"
+
+  register: upcloud_server # upcloud_server.server will contain the API response body
+
+
+# upcloud_server.public_ip shortcut will contain a public IPv4 (preferred by default) or IPv6 address
+# this task is not needed if host_key_checking=False in ansible
+- name: Remove new server from known_hosts in case of IP collision
+  known_hosts:
+    state: absent
+    host: "{{ upcloud_server.public_ip }}"
+
+- name: Wait for SSH to come up
+  wait_for: host={{ upcloud_server.public_ip }} port=22 delay=5 timeout=320 state=started
+
+- name: tag the created server
+  upcloud_tag:
+    state: present
+    uuid: "{{ upcloud_server.server.uuid }}"
+    tags: "{{ upcloud_tags }}"
+
+- name: accept new ssh fingerprints
+  shell: ssh-keyscan -H {{ upcloud_server.public_ip }} >> ~/.ssh/known_hosts
+
+# add host to current playbook's in-memory inventory
+- add_host: name={{ upcloud_server.public_ip }} groups=just_created

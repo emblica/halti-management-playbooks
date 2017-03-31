@@ -1,8 +1,18 @@
 ---
 - hosts: docker
   become: yes
-  become_method: sudo
-  roles:
-    - docker
+  become_method: sudo  
+    
+- include: halti-servers.yml
+  tags: 
+  - provision
+
 - include: halti-masters.yml
+  tags: 
+   - install
+   - master
+
 - include: halti-nodes.yml
+  tags: 
+   - install
+   - nodes

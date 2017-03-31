@@ -1,0 +1,9 @@
+---
+
+# halti-masters.yml and halti-nodes.yml
+halti_master_port: 4040
+halti_master_url: "http://{{hostvars[groups['haltimaster'][0]]['ansible_eth1']['ipv4']['address']}}:{{halti_master_port}}"
+private_ip: "{{ansible_eth1.ipv4.address}}"
+
+# halti-servers.yml
+user_ssh_key: "{{ lookup('file', '~/.ssh/id_rsa.pub') }}"
